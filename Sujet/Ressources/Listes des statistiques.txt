@@ -1,0 +1,6 @@
+Graphiques :
+ - Kilométrage par mensuelle par utilisateur avec une vue sur 12 mois (paramétrable)
+ - Kilométrage par nature de déplacements
+ - Consommation par utilisateur
+	 - Valeur moyenne des (Carburant / Kilométrage pour 100 kms)
+ - Vue des véhicules (en abscisse) et de leurs nombres de jours d’utilisation (en ordonnées) entre 2 dates.
