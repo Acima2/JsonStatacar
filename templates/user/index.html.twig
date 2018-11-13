@@ -4,4 +4,6 @@
 
 {% block body %}
     <h1>Bienvenue {{ app.user.prenom ~' '~ app.user.nom }}</h1>
+    <br>
+    <a href="{{ path('new-deplacement') }}">Nouveau déplacement</a>
 {% endblock %}

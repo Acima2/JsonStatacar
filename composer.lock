@@ -3958,11 +3958,6 @@
         {
             "name": "symfony/lts",
             "version": "v3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/lts.git",
-                "reference": "3a4e88df038e3197e6b66d091d2495fd7d255c0b"
-            },
             "conflict": {
                 "symfony/asset": ">=4",
                 "symfony/browser-kit": ">=4",
@@ -6584,7 +6579,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.0.8",
+        "php": "^7.2",
         "ext-iconv": "*"
     },
     "platform-dev": []

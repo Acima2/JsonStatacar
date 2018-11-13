@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use App\Entity\Deplacement as Deplacement;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -86,6 +87,12 @@ class User implements UserInterface
      */
     private $updatedAt;
 
+    /**
+     * @var Deplacement[]
+     * @ORM\OneToMany(targetEntity="App\Entity\Deplacement", mappedBy="chauffeur")
+     *
+     */
+    private $deplacements;
 
 
 
@@ -294,5 +301,21 @@ class User implements UserInterface
     public function setUpdatedAt(\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return Deplacement[]
+     */
+    public function getDeplacements(): array
+    {
+        return $this->deplacements;
+    }
+
+    /**
+     * @param Deplacement[] $deplacements
+     */
+    public function setDeplacements(array $deplacements): void
+    {
+        $this->deplacements = $deplacements;
     }
 }
