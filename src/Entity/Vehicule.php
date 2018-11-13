@@ -38,6 +38,7 @@ class Vehicule
 
     /**
      * @ORM\Column(type="datetime")
+     * @var \DateTime
      */
     private $date_achat;
 
@@ -117,7 +118,7 @@ class Vehicule
         return $this->date_achat;
     }
 
-    public function setDateAchat(string $date_achat): self
+    public function setDateAchat(?\DateTime $date_achat): self
     {
         $this->date_achat = $date_achat;
 
