@@ -46,7 +46,8 @@ class AppFixtures extends Fixture
 
             // on créé un admin avec de vraies données
             $admin = new User();
-            $admin->setPrenom('Maelan');
+            $admin->setNom('Admini');
+            $admin->setPrenom('Strateur');
             $admin->setEcole('Rennes');
             $admin->setEmail('maelan.leborgne@gmail.com');
             $admin->setRoles(['ADMIN_ROLE']);
@@ -59,6 +60,7 @@ class AppFixtures extends Fixture
         // on créé 20 personnes
         for ($i = 0; $i < 20; $i++) {
             $user = new User();
+            $user->setNom($faker->name);
             $user->setPrenom($faker->firstName);
             $user->setEcole($faker->city);
             $user->setEmail($faker->email);

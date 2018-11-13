@@ -38,7 +38,7 @@ class DeplacementController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $deplacement = $form->getData();
             $deplacement->setUser($this->getUser());
-
+            /* A compléter ()*/
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($deplacement);
             $entityManager->flush();
