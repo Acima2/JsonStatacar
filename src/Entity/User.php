@@ -4,10 +4,13 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @
+ * @Vich\Uploadable
+ *
  */
 class User implements UserInterface
 {
@@ -33,6 +36,58 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     */
+    private $nom;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     */
+    private $prenom;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+
+    private $date_embauche;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     */
+    private $ecole;
+
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean")
+     */
+    private $permis_valide;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @var string
+     */
+    private $image;
+
+    /**
+     * @Vich\UploadableField(mapping="product_images", fileNameProperty="image")
+     * @var File
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @var \DateTime
+     */
+    private $updatedAt;
+
+
+
 
     public function getId(): ?int
     {
@@ -110,5 +165,134 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNom(): string
+    {
+        return $this->nom;
+    }
+
+    /**
+     * @param string $nom
+     */
+    public function setNom(string $nom)
+    {
+        $this->nom = $nom;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrenom(): string
+    {
+        return $this->prenom;
+    }
+
+    /**
+     * @param string $prenom
+     */
+    public function setPrenom(string $prenom)
+    {
+        $this->prenom = $prenom;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDateEmbauche(): ?\DateTime
+    {
+        return $this->date_embauche;
+    }
+
+    /**
+     * @param \DateTime $date_embauche
+     */
+    public function setDateEmbauche(\DateTime $date_embauche)
+    {
+        if(!$date_embauche) {
+            $this->date_embauche = null;
+        }
+        else {
+            $this->date_embauche = $date_embauche;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getEcole(): string
+    {
+        return $this->ecole;
+    }
+
+    /**
+     * @param string $ecole
+     */
+    public function setEcole(string $ecole)
+    {
+        $this->ecole = $ecole;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPermisValide(): bool
+    {
+        return $this->permis_valide;
+    }
+
+    /**
+     * @param bool $permis_valide
+     */
+    public function setPermisValide(bool $permis_valide)
+    {
+        $this->permis_valide = $permis_valide;
+    }
+
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($image) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt(): \DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime $updatedAt
+     */
+    public function setUpdatedAt(\DateTime $updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
     }
 }
