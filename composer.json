@@ -26,7 +26,8 @@
         "symfony/web-link": "^3.4",
         "symfony/web-server-bundle": "^3.4",
         "symfony/webpack-encore-pack": "*",
-        "symfony/yaml": "^3.4"
+        "symfony/yaml": "^3.4",
+        "vich/uploader-bundle": "^1.8"
     },
     "require-dev": {
         "symfony/dotenv": "^3.4",
