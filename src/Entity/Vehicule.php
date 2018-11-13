@@ -26,6 +26,39 @@ class Vehicule
      */
     private $immatriculation;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $modele;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $marque;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $date_achat;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $responsable_cle;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $responsable_entretien;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photo_vehicule;
+
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -51,6 +84,78 @@ class Vehicule
     public function setImmatriculation(string $immatriculation): self
     {
         $this->immatriculation = $immatriculation;
+
+        return $this;
+    }
+
+    public function getModele(): ?string
+    {
+        return $this->modele;
+    }
+
+    public function setModele(string $modele): self
+    {
+        $this->modele = $modele;
+
+        return $this;
+    }
+
+    public function getMarque(): ?string
+    {
+        return $this->marque;
+    }
+
+    public function setMarque(string $marque): self
+    {
+        $this->marque = $marque;
+
+        return $this;
+    }
+
+    public function getDateAchat(): ?\DateTime
+    {
+        return $this->date_achat;
+    }
+
+    public function setDateAchat(string $date_achat): self
+    {
+        $this->date_achat = $date_achat;
+
+        return $this;
+    }
+
+    public function getResponsableCle(): ?string
+    {
+        return $this->responsable_cle;
+    }
+
+    public function setResponsableCle(?string $responsable_cle): self
+    {
+        $this->responsable_cle = $responsable_cle;
+
+        return $this;
+    }
+
+    public function getResponsableEntretien(): ?string
+    {
+        return $this->responsable_entretien;
+    }
+
+    public function setResponsableEntretien(?string $responsable_entretien): self
+    {
+        $this->responsable_entretien = $responsable_entretien;
+
+        return $this;
+    }
+
+    public function getPhotoVehicule(): ?string
+    {
+        return $this->photo_vehicule;
+    }
+
+    public function setPhotoVehicule(?string $photo_vehicule): self
+    {
+        $this->photo_vehicule = $photo_vehicule;
 
         return $this;
     }
