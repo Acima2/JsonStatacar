@@ -2,7 +2,12 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DeplacementRepository")
@@ -45,6 +50,40 @@ class Deplacement
      * @ORM\Column(type="string", length=255)
      */
     private $lieu_retour;
+
+    /**
+     * @ManyToOne(targetEntity="User", inversedBy="deplacements")
+     * @JoinColumn(name="user_id", referencedColumnName="id")
+     * @var User;
+     */
+    private $chauffeur;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PleinCarburant", mappedBy="deplacement", orphanRemoval=true)
+     */
+    private $pleins_carburant;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $nature;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $commentaire;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicule", inversedBy="deplacements")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $vehicule;
+
+    public function __construct()
+    {
+        $this->pleins_carburant = new ArrayCollection();
+    }
+    
 
     public function getId(): ?int
     {
@@ -119,6 +158,94 @@ class Deplacement
     public function setLieuRetour(string $lieu_retour): self
     {
         $this->lieu_retour = $lieu_retour;
+
+        return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function getChauffeur(): User
+    {
+        return $this->chauffeur;
+    }
+
+    /**
+     * @param User $chauffeur
+     */
+    public function setChauffeur(User $chauffeur): void
+    {
+        $this->chauffeur = $chauffeur;
+    }
+
+    public function estEnCours(): bool
+    {
+        return (!$this->getLieuRetour()?true:false);
+    }
+
+    /**
+     * @return Collection|PleinCarburant[]
+     */
+    public function getPleinsCarburant(): Collection
+    {
+        return $this->pleins_carburant;
+    }
+
+    public function addPleinsCarburant(PleinCarburant $pleinsCarburant): self
+    {
+        if (!$this->pleins_carburant->contains($pleinsCarburant)) {
+            $this->pleins_carburant[] = $pleinsCarburant;
+            $pleinsCarburant->setDeplacement($this);
+        }
+
+        return $this;
+    }
+
+    public function removePleinsCarburant(PleinCarburant $pleinsCarburant): self
+    {
+        if ($this->pleins_carburant->contains($pleinsCarburant)) {
+            $this->pleins_carburant->removeElement($pleinsCarburant);
+            // set the owning side to null (unless already changed)
+            if ($pleinsCarburant->getDeplacement() === $this) {
+                $pleinsCarburant->setDeplacement(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getNature(): ?string
+    {
+        return $this->nature;
+    }
+
+    public function setNature(string $nature): self
+    {
+        $this->nature = $nature;
+
+        return $this;
+    }
+
+    public function getCommentaire(): ?string
+    {
+        return $this->commentaire;
+    }
+
+    public function setCommentaire(?string $commentaire): self
+    {
+        $this->commentaire = $commentaire;
+
+        return $this;
+    }
+
+    public function getVehicule(): ?Vehicule
+    {
+        return $this->vehicule;
+    }
+
+    public function setVehicule(?Vehicule $vehicule): self
+    {
+        $this->vehicule = $vehicule;
 
         return $this;
     }
