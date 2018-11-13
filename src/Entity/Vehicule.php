@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -55,6 +57,16 @@ class Vehicule
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $photo_vehicule;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Deplacement", mappedBy="vehicule")
+     */
+    private $deplacements;
+
+    public function __construct()
+    {
+        $this->deplacements = new ArrayCollection();
+    }
 
 
 
@@ -156,6 +168,37 @@ class Vehicule
     public function setPhotoVehicule(?string $photo_vehicule): self
     {
         $this->photo_vehicule = $photo_vehicule;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Deplacement[]
+     */
+    public function getDeplacements(): Collection
+    {
+        return $this->deplacements;
+    }
+
+    public function addDeplacement(Deplacement $deplacement): self
+    {
+        if (!$this->deplacements->contains($deplacement)) {
+            $this->deplacements[] = $deplacement;
+            $deplacement->setVehicule($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeplacement(Deplacement $deplacement): self
+    {
+        if ($this->deplacements->contains($deplacement)) {
+            $this->deplacements->removeElement($deplacement);
+            // set the owning side to null (unless already changed)
+            if ($deplacement->getVehicule() === $this) {
+                $deplacement->setVehicule(null);
+            }
+        }
 
         return $this;
     }
