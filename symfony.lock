@@ -95,6 +95,9 @@
     "fig/link-util": {
         "version": "1.0.0"
     },
+    "fzaninotto/faker": {
+        "version": "v1.8.0"
+    },
     "gedmo/doctrine-extensions": {
         "version": "v2.4.36"
     },
@@ -109,6 +112,9 @@
     },
     "ocramius/proxy-manager": {
         "version": "2.2.2"
+    },
+    "pelmered/fake-car": {
+        "version": "1.2.0"
     },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"

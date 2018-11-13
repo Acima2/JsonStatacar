@@ -34,6 +34,26 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $prenom;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $date_embauche;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $ecole;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $permis_valide;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -110,5 +130,53 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): self
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getDateEmbauche(): ?\DateTimeInterface
+    {
+        return $this->date_embauche;
+    }
+
+    public function setDateEmbauche(\DateTimeInterface $date_embauche): self
+    {
+        $this->date_embauche = $date_embauche;
+
+        return $this;
+    }
+
+    public function getEcole(): ?string
+    {
+        return $this->ecole;
+    }
+
+    public function setEcole(?string $ecole): self
+    {
+        $this->ecole = $ecole;
+
+        return $this;
+    }
+
+    public function getPermisValide(): ?bool
+    {
+        return $this->permis_valide;
+    }
+
+    public function setPermisValide(bool $permis_valide): self
+    {
+        $this->permis_valide = $permis_valide;
+
+        return $this;
     }
 }
