@@ -47,6 +47,13 @@ class PleinCarburant
      */
     private $deplacement;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $type_carburant;
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +127,18 @@ class PleinCarburant
     public function setDeplacement(?Deplacement $deplacement): self
     {
         $this->deplacement = $deplacement;
+
+        return $this;
+    }
+
+    public function getTypeCarburant(): ?string
+    {
+        return $this->type_carburant;
+    }
+
+    public function setTypeCarburant(?string $type_carburant): self
+    {
+        $this->type_carburant = $type_carburant;
 
         return $this;
     }
