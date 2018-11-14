@@ -12,7 +12,21 @@
         {% endblock %}
     </head>
     <body>
-        {% block menu %}{% endblock %}
+
+        {% block menu %}
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="{{ path('user') }}">User</a>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <!--  <a class="nav-item nav-link active">Home <span class="sr-only">(current)</span></a>-->
+                        <a class="nav-item nav-link" href="{{ path('new-deplacement') }}">Départ</a>
+                        <a class="nav-item nav-link" href="{{ path('back-deplacement') }}">Retour</a>
+                        <a class="nav-item nav-link" href="{{ path('plein-carburant') }}">Plein carburant</a>
+                    </div>
+                </div>
+            </nav>
+
+            {% endblock %}
         {% block body %}{% endblock %}
         {% block javascripts %}
             <!-- Latest compiled and minified JavaScript -->

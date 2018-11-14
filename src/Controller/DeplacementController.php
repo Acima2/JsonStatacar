@@ -89,7 +89,7 @@ class DeplacementController extends Controller
 
 
     /**
-     * @Route("/plein-carburant", name="plein-carburant")
+     * @Route("/full-tank", name="plein-carburant")
      */
     public function pleinCarburant(Request $request)
     {
