@@ -11,9 +11,10 @@
     </head>
     <body>
 
-        {% include 'menuUser.html.twig' %}
-
         {% block menu %}
+            {% if app.user %}
+                {% include 'menuUser.html.twig' %}
+            {% endif %}
         {% endblock %}
 
         {% block body %}{% endblock %}

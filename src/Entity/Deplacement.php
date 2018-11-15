@@ -27,7 +27,7 @@ class Deplacement
     private $date_depart;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $date_retour;
 
@@ -37,7 +37,7 @@ class Deplacement
     private $kilometrage_depart;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true, nullable=true)
      */
     private $kilometrage_retour;
 
@@ -47,7 +47,7 @@ class Deplacement
     private $lieu_depart;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $lieu_retour;
 

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Deplacement;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -17,6 +18,20 @@ class DeplacementRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Deplacement::class);
+    }
+
+    /**
+     * @param User $user
+     * @return Deplacement
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getActiveDeplacementForUser(User $user) {
+        $em = $this->getEntityManager();
+        $qb = $this->createQueryBuilder('d')
+            ->join('d.chauffeur', 'c')
+            ->andWhere('c.id = :id')
+            ->setParameter('id', $user->getId());
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
 //    /**

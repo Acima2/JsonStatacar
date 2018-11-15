@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Deplacement;
+use App\Entity\User;
 use App\Entity\PleinCarburant;
 use App\Form\DeplacementType;
 use App\Form\PleinCarburantType;
@@ -10,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Class DeplacementController
@@ -27,6 +29,7 @@ class DeplacementController extends Controller
     {
         /* Création d'un déplacement vide */
         $deplacement = new Deplacement();
+        $deplacement->setDateDepart(new \DateTime());
         /* Création du formulaire */
         $form = $this->createForm(DeplacementType::class, $deplacement);
         $form
@@ -39,7 +42,7 @@ class DeplacementController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $deplacement = $form->getData();
-            $deplacement->setUser($this->getUser());
+            $deplacement->setChauffeur($this->getUser());
             /* A compléter ()*/
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($deplacement);
@@ -60,20 +63,22 @@ class DeplacementController extends Controller
     public function backDeplacement(Request $request)
     {
         /* Création d'un retour */
-        $deplacement = new Deplacement();
+        $deplacement = $this->getDoctrine()->getRepository(Deplacement::class)
+            ->getActiveDeplacementForUser($this->getUser());
+        $deplacement->setDateRetour(new \DateTime());
         /* Création du formulaire */
         $form = $this->createForm(DeplacementType::class, $deplacement);
         $form
             ->remove('date_depart')
             ->remove('kilometrage_depart')
             ->remove('lieu_depart')
-            ->remove('nature');
+            ->remove('nature')
+            ->remove('vehicule');
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $deplacement = $form->getData();
-            $deplacement->setUser($this->getUser());
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($deplacement);
