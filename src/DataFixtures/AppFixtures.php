@@ -20,12 +20,16 @@ class AppFixtures extends Fixture
     private $passwordEncoder;
     private $userRepository;
     private $vehiculeRepository;
+    private $villes;
+    private $deplacements;
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository, VehiculeRepository $vehiculeRepository)
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userRepository = $userRepository;
         $this->vehiculeRepository = $vehiculeRepository;
+        $this->villes = ['St-Herblain', 'Hub Creatic', 'Rennes', 'Niort'];
+        $this->deplacements = ['Cours', 'Réunion', 'Course', 'Déchèterie', 'Garage', 'Commercial', 'Assistance technique', 'Divers', 'Régulation'];
     }
 
 //Création d'un jeu de fausses données pour remplir la table Vehicule
@@ -68,7 +72,7 @@ class AppFixtures extends Fixture
             $user = new User();
             $user->setNom($faker->name);
             $user->setPrenom($faker->firstName);
-            $user->setEcole($faker->city);
+            $user->setEcole($faker->randomElement($this->villes));
             $user->setEmail($faker->email);
             $user->setRoles(['USER_ROLE']);
             $user->setPassword($faker->password());
@@ -88,6 +92,7 @@ class AppFixtures extends Fixture
             $kilometrage = $faker->numberBetween($min = 1000, $max = 200000);
             $date = $faker->dateTime("now");
             $nbrDeplacements = $faker->numberBetween($min=0, $max=2);
+            $now = new \DateTime();
 
             for($i=0; $i<$nbrDeplacements; $i++) {
                 /* On prend un $user au pif */
@@ -98,24 +103,25 @@ class AppFixtures extends Fixture
                 $deplacement->setChauffeur($user);
                 $deplacement->setKilometrageDepart($kilometrage);
                 $deplacement->setDateDepart($date);
+                $deplacement->setLieuDepart($faker->randomElement($this->villes));
                 /* A compléter ... */
                 /* On gère la fin du déplacement */
                 $kilometrage = $kilometrage + $faker->numberBetween(1, 1000);
-                $date = $date+$faker
+                $date = $faker->dateTimeInInterval($date, '+ 3 days');
+                if ($date >= $now) {
+                    $i=$nbrDeplacements;
+                    $date=$now;
+                }
                 $deplacement->setKilometrageRetour($kilometrage);
-
+                $deplacement->setDateRetour($date);
+                $deplacement->setLieuRetour($faker->randomElement($this->villes));
+                $deplacement->setNature($faker->randomElement($this->deplacements));
+                $deplacement->setCommentaire($faker->text($maxNbChars = 100));
+                $manager->persist($deplacement);
+                }
             }
 
 
-            $user->setPrenom($faker->firstName);
-            $user->setEcole($faker->city);
-            $user->setEmail($faker->email);
-            $user->setRoles(['USER_ROLE']);
-            $user->setPassword($faker->password());
-            $user->setDateEmbauche($faker->dateTime);
-            $user->setPermisValide($faker->boolean(20));
-            $manager->persist($user);
-        }
 
 
         $manager->flush();
