@@ -81,7 +81,7 @@ class DeplacementController extends Controller
         }
         /* Création d'un retour */
         $deplacement = $this->getDoctrine()->getRepository(Deplacement::class)
-            ->getActiveDeplacementForUser($$user);
+            ->getActiveDeplacementForUser($user);
         $deplacement->setDateRetour(new \DateTime());
         /* Création du formulaire */
         $form = $this->createForm(DeplacementType::class, $deplacement);
