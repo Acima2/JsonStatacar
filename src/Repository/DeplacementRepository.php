@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Deplacement;
 use App\Entity\User;
+use App\Entity\Vehicule;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -55,6 +56,22 @@ class DeplacementRepository extends ServiceEntityRepository
             return false;
         }
         return true;
+    }
+
+
+    //get last kilometrage for vehicule -> dernier kilometrage du déplacement
+    //jointure déplacement et vehicule récupérer le max check par date
+
+    public function getKilometrageVehicule(Vehicule $vehicule) {
+        $qb = $this->createQueryBuilder('d')
+            ->join('d.vehicule', 'v')
+            ->andWhere('d.vehicule = :id')
+            ->setParameter('id', $vehicule->getId())
+            ->setMaxResults(1)
+            ->orderBy('d.date_retour' , 'desc')
+            ->setMaxResults(1);
+
+        return $qb->getQuery()->getOneOrNullResult()->getKilometrageRetour();
     }
 
 //    /**
