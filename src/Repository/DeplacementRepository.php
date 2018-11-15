@@ -57,6 +57,16 @@ class DeplacementRepository extends ServiceEntityRepository
         return true;
     }
 
+    public function getLastDeplacementsForUser(User $user,$nbrDeplacements=5) {
+        $qb = $this->createQueryBuilder('d')
+            ->join('d.chauffeur', 'c')
+            ->andWhere('c.id = :id')
+            ->setParameter('id', $user->getId())
+            ->setMaxResults($nbrDeplacements)
+        ->orderBy('d.date_retour', 'DESC');
+        return $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Deplacement[] Returns an array of Deplacement objects
 //     */

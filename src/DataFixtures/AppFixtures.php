@@ -91,7 +91,7 @@ class AppFixtures extends Fixture
             /* Initialiser */
             $kilometrage = $faker->numberBetween($min = 1000, $max = 200000);
             $date = $faker->dateTime("now");
-            $nbrDeplacements = $faker->numberBetween($min=0, $max=2);
+            $nbrDeplacements = $faker->numberBetween($min=0, $max=20);
             $now = new \DateTime();
 
             for($i=0; $i<$nbrDeplacements; $i++) {
