@@ -57,7 +57,7 @@ class DeplacementController extends Controller
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('user');
+            return $this->redirectToRoute('users');
         }
         return $this->render('deplacement/new-deplacement.html.twig', [
             'form' => $form->createView(),
@@ -83,6 +83,7 @@ class DeplacementController extends Controller
         $deplacement = $this->getDoctrine()->getRepository(Deplacement::class)
             ->getActiveDeplacementForUser($user);
         $deplacement->setDateRetour(new \DateTime());
+        $deplacement->setKilometrageRetour($deplacement->getKilometrageDepart());
         /* Création du formulaire */
         $form = $this->createForm(DeplacementType::class, $deplacement);
         $form
@@ -102,7 +103,7 @@ class DeplacementController extends Controller
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('user');
+            return $this->redirectToRoute('users');
         }
         return $this->render('deplacement/back-deplacement.html.twig', ['form' => $form->createView(),]);
     }
@@ -130,7 +131,7 @@ class DeplacementController extends Controller
             $entityManager->persist($plein);
             $entityManager->flush();
 
-            return $this->redirectToRoute('user');
+            return $this->redirectToRoute('users');
         }
         return $this->render('Carburant/plein-carburant.html.twig', [
             'form' => $form->createView(),

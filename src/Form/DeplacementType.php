@@ -83,24 +83,27 @@ class DeplacementType extends AbstractType
         ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+
             $vehicule = $event->getData()->getVehicule();
             $form = $event->getForm();
-
+            if($vehicule) {
+                $kilometrage = $this->deplacementRepository->getKilometrageVehicule($vehicule);
+            }
+            else {
+                $kilometrage = 0;
+            }
             // Get configuration & options of specific field
             $config = $form->get('kilometrage_depart')->getConfig();
             $options = $config->getOptions();
-
             $form->add(
             // Replace original field...
-                'kilometrageDepart',
-                $config->getType()->getName(),
+                'kilometrage_depart',
+                IntegerType::class,
                 // while keeping the original options...
-                array_replace(
+                array_merge(
                     $options,
                     [
-                        // replacing specific ones
-                        'required' => false,
-                        'data' => ''
+                        'data' => $kilometrage
                     ]
                 )
             );

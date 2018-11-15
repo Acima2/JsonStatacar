@@ -1,53 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}Liste des utilisateurs{% endblock %}
 
 {% block body %}
-    <h1>Bienvenue {{ app.user.prenom ~' '~ app.user.nom }}</h1>
-    <br>
-    {% if not app.user.hasActiveDeplacement %}
-        <a class="btn btn-primary" href="{{ path('new-deplacement') }}">Nouveau déplacement</a>
-    {% else %}
-        <a class="btn btn-primary" href="{{ path('back-deplacement') }}">Terminer votre déplacement</a>
-        <a class="btn btn-primary" href="{{ path('plein-carburant') }}">Enregistrer un plein</a>
-    {% endif %}
-    <br>
-    <br>
-    <div class="card">
-        <div class="card-header">
-            Vos Derniers Déplacements
-        </div>
-        <div class="card-body">
-            <table class="table">
-                <thead>
-                <th>#</th>
-                <th>Véhicule</th>
-                <th>Ville de départ</th>
-                <th>Ville de retour</th>
-                <th>Date de départ</th>
-                <th>Date de retour</th>
-                <th>Kilométrage au retour</th>
-                <th>Distance parcourue</th>
-                </thead>
-                <tbody>
-                {% set nbr = 1 %}
-                {% for deplacement in deplacements %}
-                    <tr>
-                    <td>{{ nbr }}</td>
-                    <td>{{ deplacement.vehicule.nom ~ ' ' ~ deplacement.vehicule.immatriculation }}</td>
-                    <td>{{ deplacement.lieuDepart }}</td>
-                    <td>{{ deplacement.lieuRetour }}</td>
-                    <td>{{ deplacement.dateDepart|date('d/m/Y') }}</td>
-                    <td>{{ deplacement.dateRetour|date('d/m/Y') }}</td>
-                    <td>{{ deplacement.kilometrageRetour }}</td>
-                    <td>{{ deplacement.kilometrageRetour - deplacement.kilometrageDepart }}</td>
-                    </tr>
-                    {% set nbr = nbr+1 %}
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    <h1>Liste des utilisateurs</h1>
 
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Email</th>
+                <th>Date d'embauche</th>
+                <th>Ecole</th>
+                <th>Permis valide</th>
+                <th>En déplacement</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.nom }}</td>
+                <td>{{ user.prenom }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.dateEmbauche ? user.dateEmbauche|date('Y-m-d') : '' }}</td>
+                <td>{{ user.ecole }}</td>
+                <td>{{ user.permisValide ? 'Oui' : 'Non' }}</td>
+                <td>{{ user.activeDeplacement ? 'Oui' : 'Non' }}</td>
+                <td>
+                    <a href="{{ path('user_show', {'id': user.id}) }}">Détails</a>
+                    <a href="{{ path('user_edit', {'id': user.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="13">Aucun utilisateur enregistré</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-    </div>
+    <a href="{{ path('user_new') }}">Nouveau</a>
 {% endblock %}
