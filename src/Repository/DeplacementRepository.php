@@ -5,7 +5,10 @@ namespace App\Repository;
 use App\Entity\Deplacement;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
  * @method Deplacement|null find($id, $lockMode = null, $lockVersion = null)
@@ -26,12 +29,32 @@ class DeplacementRepository extends ServiceEntityRepository
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function getActiveDeplacementForUser(User $user) {
-        $em = $this->getEntityManager();
         $qb = $this->createQueryBuilder('d')
             ->join('d.chauffeur', 'c')
             ->andWhere('c.id = :id')
-            ->setParameter('id', $user->getId());
+            ->setParameter('id', $user->getId())
+            ->setMaxResults(1)
+            ->orderBy('d.date_retour');
+
         return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param User $user
+     * @return bool
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function hasActiveDeplacementForUser(User $user) {
+        $qb = $this->createQueryBuilder('d')
+            ->join('d.chauffeur', 'c')
+            ->andWhere('c.id = :id')
+            ->andWhere('d.date_retour IS NULL');
+        try {
+            $qb->getQuery()->getSingleResult();
+        } catch (NoResultException $e) {
+            return false;
+        }
+        return true;
     }
 
 //    /**

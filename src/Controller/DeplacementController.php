@@ -19,7 +19,6 @@ use Symfony\Component\Validator\Constraints\DateTime;
  * @Route("/deplacement")
  * @Security("has_role('ROLE_USER')")
  */
-
 class DeplacementController extends Controller
 {
     /**
@@ -27,6 +26,15 @@ class DeplacementController extends Controller
      */
     public function newDeplacement(Request $request)
     {
+        /* Récupèration de l'utilisateur connecté */
+        $user = $this->getUser();
+        /* Test si un déplacement est déjà en cours */
+        if($user->hasActiveDeplacement())
+        {
+            return $this->redirectToRoute("error", [
+                "error" => "Vous avez déjà un déplacement en cours, ne jouez pas au plus fin avec Json Statacar !"
+            ]);
+        }
         /* Création d'un déplacement vide */
         $deplacement = new Deplacement();
         $deplacement->setDateDepart(new \DateTime());
@@ -42,10 +50,11 @@ class DeplacementController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $deplacement = $form->getData();
-            $deplacement->setChauffeur($this->getUser());
-            /* A compléter ()*/
+            $deplacement->setChauffeur($user);
+            $user->setActiveDeplacement(true);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($deplacement);
+            $entityManager->persist($user);
             $entityManager->flush();
 
             return $this->redirectToRoute('user');
@@ -56,15 +65,23 @@ class DeplacementController extends Controller
     }
 
 
-
     /**
      * @Route("/back", name="back-deplacement")
      */
     public function backDeplacement(Request $request)
     {
+        /* Récupération de l'utilisateur connecté */
+        $user = $this->getUser();
+        /* Test si un déplacement est déjà en cours */
+        if(!$user->hasActiveDeplacement())
+        {
+            return $this->redirectToRoute("error", [
+                "error" => "Vous n'avez pas de déplacement en cours, ne jouez pas au plus fin avec Json Statacar !"
+            ]);
+        }
         /* Création d'un retour */
         $deplacement = $this->getDoctrine()->getRepository(Deplacement::class)
-            ->getActiveDeplacementForUser($this->getUser());
+            ->getActiveDeplacementForUser($$user);
         $deplacement->setDateRetour(new \DateTime());
         /* Création du formulaire */
         $form = $this->createForm(DeplacementType::class, $deplacement);
@@ -79,27 +96,27 @@ class DeplacementController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $deplacement = $form->getData();
-
             $entityManager = $this->getDoctrine()->getManager();
+            $user->setActiveDeplacement(false);
             $entityManager->persist($deplacement);
+            $entityManager->persist($user);
             $entityManager->flush();
 
             return $this->redirectToRoute('user');
         }
-        return $this->render('deplacement/back-deplacement.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        return $this->render('deplacement/back-deplacement.html.twig', ['form' => $form->createView(),]);
     }
-
 
 
     /**
      * @Route("/full-tank", name="plein-carburant")
      */
-    public function pleinCarburant(Request $request)
+    public
+    function pleinCarburant(Request $request)
     {
         /* Création d'un plein de carburant */
         $plein = new PleinCarburant();
+
         /* Création du formulaire */
         $form = $this->createForm(PleinCarburantType::class, $plein);
 

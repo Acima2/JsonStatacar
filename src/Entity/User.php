@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\DeplacementRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\HttpFoundation\File\File;
@@ -15,6 +16,11 @@ use App\Entity\Deplacement as Deplacement;
  */
 class User implements UserInterface
 {
+    public function __construct()
+    {
+        $this->activeDeplacement = false;
+    }
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -93,6 +99,12 @@ class User implements UserInterface
      *
      */
     private $deplacements;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    private $activeDeplacement;
 
 
 
@@ -317,5 +329,22 @@ class User implements UserInterface
     public function setDeplacements(array $deplacements): void
     {
         $this->deplacements = $deplacements;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasActiveDeplacement(): bool
+    {
+        return $this->activeDeplacement;
+    }
+
+    /**
+     * @param bool $activeDeplacement
+     * @return User
+     */
+    public function setActiveDeplacement(bool $activeDeplacement)
+    {
+        $this->activeDeplacement = $activeDeplacement;
     }
 }
