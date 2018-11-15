@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
-use Doctrine\ORM\Mapping\OneToMany;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DeplacementRepository")
@@ -249,4 +249,22 @@ class Deplacement
 
         return $this;
     }
+
+    /*---------------------------Validation----------------------------*/
+    /**
+     * @return bool
+     * @Assert\IsTrue(message="La date de retour doit être postérieure à la date de départ.")
+     */
+    public function isCoherentDate(){
+        return (!$this->date_retour || $this->date_retour > $this->date_depart);
+    }
+    /**
+     * @return bool
+     * @Assert\IsTrue(message="La kilométrage d'arrivé doit être supérieur au kilométrage de départ. Où alors il faut nous donner ta technique !")
+     */
+    public function isCoherentKilometrage(){
+        return (!$this->kilometrage_retour || $this->getKilometrageRetour() > $this->kilometrage_depart);
+    }
+
+
 }

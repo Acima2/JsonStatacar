@@ -5,5 +5,9 @@
 {% block body %}
     <h1>Bienvenue {{ app.user.prenom ~' '~ app.user.nom }}</h1>
     <br>
-    <a href="{{ path('new-deplacement') }}">Nouveau déplacement</a>
+    {%  if not app.user.hasActiveDeplacement %}
+    <button class="btn btn-primary" href="{{ path('new-deplacement') }}">Nouveau déplacement</button>
+    {% else %}
+    <button class="btn btn-primary" href="{{ path('back-deplacement') }}">Terminer votre déplacement</button>
+    {%  endif %}
 {% endblock %}

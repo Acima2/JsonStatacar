@@ -22,8 +22,16 @@ class DeplacementType extends AbstractType
         $villes = ['St-Herblain', 'Hub Creatic', 'Rennes', 'Niort'];
         $deplacements = ['Cours', 'Réunion', 'Course', 'Déchèterie', 'Garage', 'Commercial', 'Assistance technique', 'Divers', 'Régulation'];
         $builder
-            ->add('date_depart', DateTimeType::class, ['label' => 'Date de départ'])
-            ->add('date_retour',DateTimeType::class, ['label' => 'Date de retour'])
+            ->add('date_depart', DateTimeType::class, [
+                'label' => 'Date de départ',
+                'widget' => 'single_text',
+                'html5' => true,
+            ])
+            ->add('date_retour',DateTimeType::class, [
+                'label' => 'Date de retour',
+                'widget' => 'single_text',
+                'html5' => true,
+                ])
             ->add('kilometrage_depart', IntegerType::class)
             ->add('kilometrage_retour', IntegerType::class)
             ->add('lieu_depart', ChoiceType::class, [
