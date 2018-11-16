@@ -100,7 +100,7 @@ class DeplacementRepository extends ServiceEntityRepository
     }
     public function getStatsJoursUtilisationByVehicules() {
         $qb = $this->createQueryBuilder('d')
-            ->select('(SUM(DATE_DIFF(d.date_retour, d.date_depart))) AS nbrJours, d.vehicule vehicule')
+            ->select('d, (SUM(DATE_DIFF(d.date_retour, d.date_depart))) AS nbrJours')
             ->join('d.vehicule', 'v')
             ->andWhere('d.date_retour IS NOT NULL')
             ->groupBy('d.vehicule');
