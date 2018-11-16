@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
@@ -57,7 +58,7 @@ class DeplacementController extends Controller
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('users');
+            return $this->redirectToRoute('user_accueil');
         }
         return $this->render('deplacement/new-deplacement.html.twig', [
             'form' => $form->createView(),
@@ -103,7 +104,7 @@ class DeplacementController extends Controller
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('users');
+            return $this->redirectToRoute('user_accueil');
         }
         return $this->render('deplacement/back-deplacement.html.twig', ['form' => $form->createView(),]);
     }
@@ -117,6 +118,11 @@ class DeplacementController extends Controller
     {
         /* Création d'un plein de carburant */
         $plein = new PleinCarburant();
+        $deplacement = $this->getDoctrine()->getRepository(Deplacement::class)
+            ->getActiveDeplacementForUser($this->getUser());
+        $plein->setDeplacement($deplacement);
+        $plein->setKilometrage($deplacement->getKilometrageDepart());
+        $plein->setDate(new \DateTime());
 
         /* Création du formulaire */
         $form = $this->createForm(PleinCarburantType::class, $plein);
@@ -125,13 +131,11 @@ class DeplacementController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $plein = $form->getData();
-            $plein->setUser($this->getUser());
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($plein);
             $entityManager->flush();
 
-            return $this->redirectToRoute('users');
+            return $this->redirectToRoute('user_accueil');
         }
         return $this->render('Carburant/plein-carburant.html.twig', [
             'form' => $form->createView(),
