@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Deplacement;
 use App\Entity\Vehicule;
+use App\Repository\DeplacementRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -11,11 +12,18 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DeplacementType extends AbstractType
 {
+    private $deplacementRepository;
+    public function __construct(DeplacementRepository $deplacementRepository){
+        $this->deplacementRepository = $deplacementRepository;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -73,6 +81,33 @@ class DeplacementType extends AbstractType
                     'placeholder' => 'Ex: Il y avait des chips écrasées sur le siège, un pigeon s\'est fait plaisir sur le pare-brise, etc...')
             ])
         ;
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+
+            $vehicule = $event->getData()->getVehicule();
+            $form = $event->getForm();
+            if($vehicule) {
+                $kilometrage = $this->deplacementRepository->getKilometrageVehicule($vehicule);
+            }
+            else {
+                $kilometrage = 0;
+            }
+            // Get configuration & options of specific field
+            $config = $form->get('kilometrage_depart')->getConfig();
+            $options = $config->getOptions();
+            $form->add(
+            // Replace original field...
+                'kilometrage_depart',
+                IntegerType::class,
+                // while keeping the original options...
+                array_merge(
+                    $options,
+                    [
+                        'data' => $kilometrage
+                    ]
+                )
+            );
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver)

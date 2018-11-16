@@ -60,7 +60,7 @@ class AppFixtures extends Fixture
             $admin->setPrenom('Strateur');
             $admin->setEcole('Rennes');
             $admin->setEmail('maelan.leborgne@gmail.com');
-            $admin->setRoles(['ADMIN_ROLE']);
+            $admin->setRoles(['ROLE_ADMIN']);
             $admin->setPassword($this->passwordEncoder->encodePassword($admin, 'maelan'));
             $admin->setDateEmbauche($faker->dateTime);
             $admin->setPermisValide('true');
@@ -74,7 +74,7 @@ class AppFixtures extends Fixture
             $user->setPrenom($faker->firstName);
             $user->setEcole($faker->randomElement($this->villes));
             $user->setEmail($faker->email);
-            $user->setRoles(['USER_ROLE']);
+            $user->setRoles(['ROLE_USER']);
             $user->setPassword($faker->password());
             $user->setDateEmbauche($faker->dateTime("now"));
             $user->setPermisValide($faker->boolean(20));
@@ -91,7 +91,7 @@ class AppFixtures extends Fixture
             /* Initialiser */
             $kilometrage = $faker->numberBetween($min = 1000, $max = 200000);
             $date = $faker->dateTime("now");
-            $nbrDeplacements = $faker->numberBetween($min=0, $max=2);
+            $nbrDeplacements = $faker->numberBetween($min=0, $max=20);
             $now = new \DateTime();
 
             for($i=0; $i<$nbrDeplacements; $i++) {

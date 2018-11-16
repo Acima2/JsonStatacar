@@ -1,13 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello {{ controller_name }}!{% endblock %}
+{% block title %}Liste des utilisateurs{% endblock %}
 
 {% block body %}
-    <h1>Bienvenue {{ app.user.prenom ~' '~ app.user.nom }}</h1>
-    <br>
-    {%  if not app.user.hasActiveDeplacement %}
-    <button class="btn btn-primary" href="{{ path('new-deplacement') }}">Nouveau déplacement</button>
-    {% else %}
-    <button class="btn btn-primary" href="{{ path('back-deplacement') }}">Terminer votre déplacement</button>
-    {%  endif %}
+    <h1>Liste des utilisateurs</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Email</th>
+                <th>Date d'embauche</th>
+                <th>Ecole</th>
+                <th>Permis valide</th>
+                <th>En déplacement</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.nom }}</td>
+                <td>{{ user.prenom }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.dateEmbauche ? user.dateEmbauche|date('Y-m-d') : '' }}</td>
+                <td>{{ user.ecole }}</td>
+                <td>{{ user.permisValide ? 'Oui' : 'Non' }}</td>
+                <td>{{ user.activeDeplacement ? 'Oui' : 'Non' }}</td>
+                <td>
+                    <a href="{{ path('user_show', {'id': user.id}) }}">Détails</a>
+                    <a href="{{ path('user_edit', {'id': user.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="13">Aucun utilisateur enregistré</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('user_new') }}">Nouveau</a>
 {% endblock %}

@@ -12,7 +12,9 @@
     <body>
 <div class="container">
         {% block menu %}
-            {% if app.user %}
+            {% if is_granted('ROLE_ADMIN') %}
+                {% include 'menuAdmin.html.twig' %}
+            {% elseif app.user %}
                 {% include 'menuUser.html.twig' %}
             {% endif %}
         {% endblock %}
