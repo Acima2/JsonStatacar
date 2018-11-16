@@ -30,18 +30,13 @@ class DeplacementType extends AbstractType
         $villes = ['St-Herblain', 'Hub Creatic', 'Rennes', 'Niort'];
         $deplacements = ['Cours', 'Réunion', 'Course', 'Déchèterie', 'Garage', 'Commercial', 'Assistance technique', 'Divers', 'Régulation'];
         $builder
-            ->add('date_depart', DateTimeType::class, [
-                'label' => 'Date de départ',
-                'widget' => 'single_text',
-                'html5' => true,
+            ->add('vehicule', EntityType::class, [
+                'label' => 'Véhicule utilisé',
+                'class' => Vehicule::class,
+                'choice_label' => 'nom',
+                'expanded' => false,
+                'multiple' => false
             ])
-            ->add('date_retour',DateTimeType::class, [
-                'label' => 'Date de retour',
-                'widget' => 'single_text',
-                'html5' => true,
-                ])
-            ->add('kilometrage_depart', IntegerType::class)
-            ->add('kilometrage_retour', IntegerType::class)
             ->add('lieu_depart', ChoiceType::class, [
                 'choices' => $villes,
                 'choice_label' => function ($key, $value) {
@@ -58,13 +53,18 @@ class DeplacementType extends AbstractType
                 'placeholder' => 'Ville',
                 'label' => 'Lieux de retour',
             ])
-            ->add('vehicule', EntityType::class, [
-                'label' => 'Véhicule utilisé',
-                'class' => Vehicule::class,
-                'choice_label' => 'nom',
-                'expanded' => false,
-                'multiple' => false
+            ->add('date_depart', DateTimeType::class, [
+                'label' => 'Date de départ',
+                'widget' => 'single_text',
+                'html5' => true,
             ])
+            ->add('date_retour',DateTimeType::class, [
+                'label' => 'Date de retour',
+                'widget' => 'single_text',
+                'html5' => true,
+                ])
+            ->add('kilometrage_depart', IntegerType::class)
+            ->add('kilometrage_retour', IntegerType::class)
             ->add('nature', ChoiceType::class, [
                 'choices' => $deplacements,
                 'choice_label' => function ($key, $value) {
@@ -77,6 +77,7 @@ class DeplacementType extends AbstractType
             ])
             ->add('commentaire', TextareaType::class, [
                 'label' => 'Commentaires',
+                'required' => 'false',
                 'attr' => array(
                     'placeholder' => 'Ex: Il y avait des chips écrasées sur le siège, un pigeon s\'est fait plaisir sur le pare-brise, etc...')
             ])
