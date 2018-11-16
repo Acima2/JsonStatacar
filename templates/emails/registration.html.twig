@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>JsonsStatacar</title>
+    {% block stylesheets %}
+        <!-- Latest bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    {% endblock %}
+</head>
+<body>
+<h1>Bienvenue sur JsonStatacar</h1>
+<p>Connectez vous sur <a href="http://127.0.0.1:8000">http://127.0.0.1:8000</a> (ou l'addresse sur laquelle vous faites tourner l'application) et connectez vous à l'aide des informations suivantes :</p>
+<ul>
+    <li><strong>Email :</strong> {{ email }}</li>
+    <li><strong>Mot de passe :</strong> {{ password }}</li>
+</ul>
+</html>

@@ -19,6 +19,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->activeDeplacement = false;
+        $this->roles = ['ROLE_USER'];
     }
 
     /**
@@ -82,7 +83,7 @@ class User implements UserInterface
     private $image;
 
     /**
-     * @Vich\UploadableField(mapping="product_images", fileNameProperty="image",)
+     * @Vich\UploadableField(mapping="user", fileNameProperty="image",)
      * @var File
      */
     private $imageFile;
@@ -189,7 +190,7 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getNom(): string
+    public function getNom(): ?string
     {
         return $this->nom;
     }
@@ -205,7 +206,7 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getPrenom(): string
+    public function getPrenom(): ?string
     {
         return $this->prenom;
     }
@@ -242,7 +243,7 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getEcole(): string
+    public function getEcole(): ?string
     {
         return $this->ecole;
     }
@@ -258,7 +259,7 @@ class User implements UserInterface
     /**
      * @return bool
      */
-    public function isPermisValide(): bool
+    public function isPermisValide(): ?bool
     {
         return $this->permis_valide;
     }
@@ -334,7 +335,7 @@ class User implements UserInterface
     /**
      * @return bool
      */
-    public function hasActiveDeplacement(): bool
+    public function hasActiveDeplacement(): ?bool
     {
         return $this->activeDeplacement;
     }

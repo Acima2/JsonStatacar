@@ -2,23 +2,31 @@
 ## L'application qui simplfie la gestion de vos déplacement
 
 ### Installation
-Prérequis :  
+#### Prérequis :  
+    git
     PHP 7.2^  
     MySQL  
     Composer  
+#### Procédure :
+`git clone https://github.com/Acima2/JsonStatacar.git`
+##### Sous système Unix :
+1. `cd JsonStatacar`  
+2. `make install`  
+3. Entrer votre mot de passe utilisateur quand demandé (pour l'initialisation de MySQL)  
+4. Ouvrez [127.0.0.1:8000](http://127.0.0.1:8000)  
 
-`git clone https://github.com/Acima2/JsonStatacar.git`  
-`cd JsonStatacar`  
-`make install`  
-Entrer votre mot de passe utilisateur quand demandé (pour l'initialisation de MySQL)  
-
-Si un message d'erreur apparait, rendez vous dans [PhpMyAdmin](localhost/phpmyadmin) et  
-#### Option 1 :  
-Créez un User ayant tous les droits avec les infos suivantes :  
+#### Sous Windows :
+1. Rendez vous dans [PhpMyAdmin](localhost/phpmyadmin) et
+  Créez un User ayant tous les droits avec les infos suivantes :  
 `username = db_user` et `password = db_password`  
-Puis relancez `make install`  
-#### Option 2 :  
-Executez le script dbconfig.sql présent dans le répertoire de l'application  
-Puis relancez `make install`  
+OU  
+  Executez le script dbconfig.sql présent dans le répertoire de l'application
 
-Ouvrez [127.0.0.1:8000](http://127.0.0.1:8000)
+2. Ouvrez un terminal à la racine du depo `C:\.....\JsonsStatacar`
+3. Copier-coller les commandes ci dessous :  
+`composer install`    
+`php bin/console doctrine:database:create --if-not-exists`  
+`php bin/console doctrine:schema:update --force`  
+`php bin/console doctrine:fixture:load --no-interaction`    
+`php bin/console se:ru`
+4. Ouvrez [127.0.0.1:8000](http://127.0.0.1:8000)

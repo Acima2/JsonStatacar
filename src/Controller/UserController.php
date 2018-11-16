@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/user")
@@ -41,13 +42,31 @@ class UserController extends Controller
      * @Route("/new", name="user_new", methods="GET|POST")
      * @Security("has_role('ROLE_ADMIN')")
      */
-    public function new(Request $request): Response
+    public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder, \Swift_Mailer $mailer): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+            $plainPassword = $user->getNom().$user->getPrenom().date_format($user->getDateEmbauche(),"Y");
+            $user->setPassword($passwordEncoder->encodePassword($user, $plainPassword));
+            $message = (new \Swift_Message('Bienvenue'))
+                ->setFrom('maelan.leborgne@gmail.com')
+                ->setTo($user->getEmail())
+                ->setBody(
+                    $this->renderView(
+                    // templates/emails/registration.html.twig
+                        'emails/registration.html.twig',
+                        array(
+                            'email' => $user->getEmail(),
+                            'password'=> $plainPassword
+                            )
+                    ),
+                    'text/html'
+                );
+            $mailer->send($message);
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();

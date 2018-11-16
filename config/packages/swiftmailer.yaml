@@ -1,3 +1,3 @@
 swiftmailer:
-    url: '%env(MAILER_URL)%'
+    url: gmail://maelan.leborgne:pankreasando29@localhost
     spool: { type: 'memory' }
