@@ -13,11 +13,11 @@
                 <th>Immatriculation</th>
                 <th>Modele</th>
                 <th>Marque</th>
-                <th>Date_achat</th>
-                <th>Responsable_cle</th>
-                <th>Responsable_entretien</th>
-                <th>Photo_vehicule</th>
-                <th>actions</th>
+                <th>Date d'achat</th>
+                <th>Responsable clé</th>
+                <th>Responsable entretien</th>
+                <th>Photo vehicule</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -28,10 +28,10 @@
                 <td>{{ vehicule.immatriculation }}</td>
                 <td>{{ vehicule.modele }}</td>
                 <td>{{ vehicule.marque }}</td>
-                <td>{{ vehicule.dateAchat ? vehicule.dateAchat|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ vehicule.dateAchat ? vehicule.dateAchat|date('Y-m-d') : '' }}</td>
                 <td>{{ vehicule.responsableCle }}</td>
                 <td>{{ vehicule.responsableEntretien }}</td>
-                <td>{{ vehicule.photoVehicule }}</td>
+                <td>{{ vehicule.photoVehicule?vehicule.photoVehicule:'N.A' }}</td>
                 <td>
                     <a href="{{ path('vehicule_show', {'id': vehicule.id}) }}">show</a>
                     <a href="{{ path('vehicule_edit', {'id': vehicule.id}) }}">edit</a>

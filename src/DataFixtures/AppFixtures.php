@@ -59,9 +59,9 @@ class AppFixtures extends Fixture
             $admin->setNom('Admini');
             $admin->setPrenom('Strateur');
             $admin->setEcole('Rennes');
-            $admin->setEmail('maelan.leborgne@gmail.com');
+            $admin->setEmail('admin@jsonstatacar.com');
             $admin->setRoles(['ROLE_ADMIN']);
-            $admin->setPassword($this->passwordEncoder->encodePassword($admin, 'maelan'));
+            $admin->setPassword($this->passwordEncoder->encodePassword($admin, 'admin'));
             $admin->setDateEmbauche($faker->dateTime);
             $admin->setPermisValide('true');
             $manager->persist($admin);

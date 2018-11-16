@@ -1,27 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User{% endblock %}
+{% block title %}Utilisateur{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+    <h1>Utilisateur {{ user.prenom ~ ' '~ user.nom }}</h1>
+    <img src="{{ user.imageFile }}" alt="avatar">
 
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
                 <th>Email</th>
                 <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ user.roles }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
             </tr>
             <tr>
                 <th>Nom</th>
@@ -33,7 +22,7 @@
             </tr>
             <tr>
                 <th>Date_embauche</th>
-                <td>{{ user.dateEmbauche ? user.dateEmbauche|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ user.dateEmbauche ? user.dateEmbauche|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
                 <th>Ecole</th>
@@ -42,10 +31,6 @@
             <tr>
                 <th>Permis_valide</th>
                 <td>{{ user.permisValide ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td>{{ user.image }}</td>
             </tr>
             <tr>
                 <th>UpdatedAt</th>

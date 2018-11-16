@@ -16,15 +16,8 @@
                     <a class="nav-link" href="{{ path('plein-carburant') }}">Plein carburant</a>
                 </li>
             {% endif %}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="{{ path('accueil') }}" id="navbarDropdownMenuLink"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    User
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#">Votre profil</a>
-                    <a class="dropdown-item" href="#">Déconnexion</a>
-                </div>
+            <li class="nav-item">
+                    <a class="nav-link" href="{{ path('logout') }}">Déconnexion</a>
             </li>
         </ul>
         {% if is_granted('ROLE_ADMIN') %}

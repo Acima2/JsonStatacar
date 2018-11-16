@@ -33,6 +33,7 @@ class VehiculeController extends Controller
     public function new(Request $request): Response
     {
         $vehicule = new Vehicule();
+        $vehicule->setDateAchat(new \DateTime());
         $form = $this->createForm(VehiculeType::class, $vehicule);
         $form->handleRequest($request);
 

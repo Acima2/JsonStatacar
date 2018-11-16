@@ -28,20 +28,24 @@
                 <td>{{ vehicule.marque }}</td>
             </tr>
             <tr>
-                <th>Date_achat</th>
+                <th>Date d'achat</th>
                 <td>{{ vehicule.dateAchat ? vehicule.dateAchat|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Responsable_cle</th>
+                <th>Responsable clé</th>
                 <td>{{ vehicule.responsableCle }}</td>
             </tr>
             <tr>
-                <th>Responsable_entretien</th>
+                <th>Responsable entretien</th>
                 <td>{{ vehicule.responsableEntretien }}</td>
             </tr>
             <tr>
-                <th>Photo_vehicule</th>
-                <td>{{ vehicule.photoVehicule }}</td>
+                <th>Photo vehicule</th>
+                <td>{{ vehicule.photoVehicule? vehicule.photoVehicule : 'N.A' }}</td>
+            </tr>
+            <tr>
+                <th>Kilométrage actuel</th>
+                <td>{{ kilometrage }} Km</td>
             </tr>
         </tbody>
     </table>
