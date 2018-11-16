@@ -84,6 +84,30 @@ class DeplacementRepository extends ServiceEntityRepository
         return $qb->getQuery()->getOneOrNullResult()->getKilometrageRetour();
     }
 
+    public function getStatsNatureDeplacementsNbr() {
+        $qb = $this->createQueryBuilder('d')
+            ->select('d.nature, COUNT(d)')
+            ->groupBy('d.nature')
+        ->andWhere('d.date_retour IS NOT NULL');
+        return $qb->getQuery()->getResult();
+    }
+    public function getStatsNatureDeplacementsKilometrage() {
+        $qb = $this->createQueryBuilder('d')
+            ->select('d.nature, (SUM(d.kilometrage_retour)-SUM(d.kilometrage_depart)) distance')
+            ->groupBy('d.nature')
+            ->andWhere('d.date_retour IS NOT NULL');
+        return $qb->getQuery()->getResult();
+    }
+    public function getStatsJoursUtilisationByVehicules() {
+        $qb = $this->createQueryBuilder('d')
+            ->select('d, (SUM(DATE_DIFF(d.date_retour, d.date_depart))) AS nbrJours')
+            ->join('d.vehicule', 'v')
+            ->andWhere('d.date_retour IS NOT NULL')
+            ->groupBy('d.vehicule');
+        return $qb->getQuery()->getResult();
+
+    }
+
 //    /**
 //     * @return Deplacement[] Returns an array of Deplacement objects
 //     */
